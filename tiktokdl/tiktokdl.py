@@ -16,7 +16,7 @@ class TikTokAuthor:
 @dataclass
 class TikTokVideo:
     id: int
-    origin_link: str
+    permalink: str
     cdn_link: str
     duration: int
     cover: str
@@ -64,7 +64,7 @@ class TikTok:
         video_struct = item_struct["video"]
         self.video = TikTokVideo(
             id = video_struct["id"],
-            origin_link = url,
+            permalink = url,
             cdn_link = video_struct["playAddr"],
             duration = video_struct["duration"],
             cover = video_struct["cover"],
@@ -91,7 +91,7 @@ class TikTok:
                        "Chrome/86.0.4240.111 Safari/537.36"),
         }
         video = requests.get(
-            self.video.cdn_link, headers=headers, cookies={"tt_webid_v2": self.tt_webid_v2}
+            self.video.permalink, headers=headers, cookies={"tt_webid_v2": self.tt_webid_v2}
         )
         if not video.ok:
             raise Exception(f"Uh oh, we didn't get the data back from the CDN. {video}")
